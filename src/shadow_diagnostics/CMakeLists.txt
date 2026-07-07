@@ -16,8 +16,15 @@ add_executable(
 )
 ament_target_dependencies(heartbeat_node rclcpp std_msgs)
 
+add_executable(
+  command_node
+  src/command_node.cpp
+)
+ament_target_dependencies(command_node rclcpp std_msgs)
+
 install(TARGETS
   heartbeat_node
+  command_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

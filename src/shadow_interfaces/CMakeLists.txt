@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(shadow_diagnostics)
+project(shadow_interfaces)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,27 +7,14 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(shadow_interfaces REQUIRED)
-find_package(std_msgs REQUIRED)
-
-add_executable(
-  heartbeat_node
-  src/heartbeat_node.cpp
+find_package(rosidl_default_generators REQUIRED)
+rosidl_generate_interfaces(
+  ${PROJECT_NAME}
+  "msg/RobotStatus.msg"
 )
-ament_target_dependencies(heartbeat_node rclcpp shadow_interfaces std_msgs)
-
-add_executable(
-  command_node
-  src/command_node.cpp
-)
-ament_target_dependencies(command_node rclcpp shadow_interfaces std_msgs)
-
-install(TARGETS
-  heartbeat_node
-  command_node
-  DESTINATION lib/${PROJECT_NAME}
-)
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
